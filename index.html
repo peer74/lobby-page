@@ -102,7 +102,7 @@ body {
     .gregorian-date { text-align: left; color: #00bcd4; }
     .hebrew-date { text-align: right; color: #00bcd4; }
 	
-    .news-ticker {
+.news-ticker {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -114,7 +114,7 @@ body {
   box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
   z-index: 999;
 }
-#combinedTickerItem {
+#newsTickerItem {
   transition: opacity 0.5s ease-in-out;
 }
 
@@ -272,11 +272,10 @@ const sources = {
     prefix: '📰'
   },
   sport: {
-    url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.mako.co.il/rss/News-sports.xml',
+      url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.one.co.il/cat/General/rss/',
     prefix: '⚽'
   }
 };
-
 
 async function fetchCombinedHeadlines(sourceKey) {
   const { url, prefix } = sources[sourceKey];
@@ -312,6 +311,7 @@ updateCombinedTicker();
 setInterval(showNextCombinedHeadline, 7000);   // מעבר בין כותרות
 setInterval(updateCombinedTicker, 30000);      // החלפה בין חדשות וספורט
 
+
 setTimeout(() => {
   location.reload();
 }, 60000); // רענון כל 60,000 מילישניות = 60 שניות
@@ -319,4 +319,3 @@ setTimeout(() => {
   </script>
 </body>
 </html>
-
