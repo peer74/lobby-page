@@ -9,8 +9,6 @@ body {
   padding: 0;
   font-family: "Segoe UI", sans-serif;
   min-height: 100vh;
-  height: 100%;
-  width: 100%;
   background-image: url('https://copilot.microsoft.com/th/id/BCO.c3dd5980-e855-4e73-bef5-5b5aae4a7000.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -30,9 +28,9 @@ body {
       margin-bottom: 20px;
       color: #00bcd4;
     }
- .clock {
+    .clock {
   text-align: center;
-  font-size: 3.5em; /* גודל מוגדל */
+  font-size: 7em; /* גודל מוגדל */
   margin-bottom: 20px;
   color: #5c2c06;
   font-weight: bold;
@@ -103,21 +101,23 @@ body {
     }
     .gregorian-date { text-align: left; color: #00bcd4; }
     .hebrew-date { text-align: right; color: #00bcd4; }
+	
     .news-ticker {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #222;
-      color: #fff;
-      font-size: 2em;
-      padding: 20px 0;
-      text-align: center;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-      z-index: 999;
-    }
-    #newsTickerItem {
-      transition: opacity 0.5s ease-in-out;
-    }
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #222;
+  color: #fff;
+  font-size: 2em;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+  z-index: 999;
+}
+#combinedTickerItem {
+  transition: opacity 0.5s ease-in-out;
+}
+
     a { color: #ffd700; text-decoration: none; }
   </style>
 </head>
@@ -146,7 +146,7 @@ body {
 </div>
 
 <div class="holiday-message">
- ועד הבית מאחל לכל הדיירים שנה טובה.
+ועד הבית מאחל לכל הדיירים שנה טובה.
 </div>
 
   <div class="container">
@@ -165,8 +165,9 @@ body {
   </div>
 
   <div class="news-ticker">
-    <div id="newsTickerItem">📰 טוען מבזקי חדשות...</div>
-  </div>
+  <div id="newsTickerItem">🔄 טוען מבזקי חדשות וספורט...</div>
+</div>
+
 
   <script>
     function updateClock() {
@@ -200,36 +201,7 @@ body {
     updateGregorianDate();
     updateHebrewDate();
 
-    let newsHeadlines = [];
-    let currentHeadlineIndex = 0;
-
-    async function fetchNewsHeadlines() {
-     const url = 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss2.xml';
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        newsHeadlines = data.items.slice(0, 10).map(item => "📰 " + item.title);
-        currentHeadlineIndex = 0;
-        showNextHeadline();
-      } catch {
-        newsHeadlines = ["📢 לא ניתן לטעון מבזקי חדשות"];
-        showNextHeadline();
-      }
-    }
-
-    function showNextHeadline() {
-      const ticker = document.getElementById("newsTickerItem");
-      ticker.style.opacity = 0;
-      setTimeout(() => {
-        ticker.textContent = newsHeadlines[currentHeadlineIndex];
-        ticker.style.opacity = 1;
-        currentHeadlineIndex = (currentHeadlineIndex + 1) % newsHeadlines.length;
-      }, 500);
-    }
-
-    fetchNewsHeadlines();
-    setInterval(showNextHeadline, 7000);
-    setInterval(fetchNewsHeadlines, 60000);
+    
 
     const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
     const city = "Nahariya";
@@ -289,6 +261,57 @@ body {
 updateShabbatTimes();
 setInterval(updateShabbatTimes, 3600000); // רענון כל שעה
 
+    // עדכוני חדשות
+let combinedHeadlines = [];
+let currentCombinedIndex = 0;
+let currentSource = 'news';
+
+const sources = {
+  news: {
+    url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.mako.co.il/rss/News-sports.xml',
+    prefix: '📰'
+  },
+  sport: {
+    url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.mako.co.il/rss/News-sports.xml',
+    prefix: '⚽'
+  }
+};
+
+
+async function fetchCombinedHeadlines(sourceKey) {
+  const { url, prefix } = sources[sourceKey];
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (!data.items || data.items.length === 0) throw new Error("אין פריטים");
+    return data.items.slice(0, 10).map(item => `${prefix} ${item.title}`);
+  } catch {
+    return [`${prefix} לא ניתן לטעון כותרות`];
+  }
+}
+
+async function updateCombinedTicker() {
+  const sourceKey = currentSource;
+  combinedHeadlines = await fetchCombinedHeadlines(sourceKey);
+  currentCombinedIndex = 0;
+  showNextCombinedHeadline();
+  currentSource = sourceKey === 'news' ? 'sport' : 'news';
+}
+
+function showNextCombinedHeadline() {
+  const ticker = document.getElementById("newsTickerItem");
+  ticker.style.opacity = 0;
+  setTimeout(() => {
+    ticker.textContent = combinedHeadlines[currentCombinedIndex];
+    ticker.style.opacity = 1;
+    currentCombinedIndex = (currentCombinedIndex + 1) % combinedHeadlines.length;
+  }, 500);
+}
+
+updateCombinedTicker();
+setInterval(showNextCombinedHeadline, 7000);   // מעבר בין כותרות
+setInterval(updateCombinedTicker, 30000);      // החלפה בין חדשות וספורט
+
 setTimeout(() => {
   location.reload();
 }, 60000); // רענון כל 60,000 מילישניות = 60 שניות
@@ -296,10 +319,3 @@ setTimeout(() => {
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
