@@ -275,7 +275,7 @@ const sources = {
     prefix: '📰'
   },
   sport: {
-      url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.one.co.il/cat/General/rss/',
+ url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss3.xml',
     prefix: '⚽'
   }
 };
@@ -312,7 +312,7 @@ function showNextCombinedHeadline() {
 
 updateCombinedTicker();
 setInterval(showNextCombinedHeadline, 7000);   // מעבר בין כותרות
-setInterval(updateCombinedTicker, 30000);      // החלפה בין חדשות וספורט
+setInterval(updateCombinedTicker, 70000);      // החלפה בין חדשות וספורט
 
 
 // setTimeout(() => {
@@ -322,9 +322,3 @@ setInterval(updateCombinedTicker, 30000);      // החלפה בין חדשות �
   </script>
 </body>
 </html>
-
-
-
-
-
-
