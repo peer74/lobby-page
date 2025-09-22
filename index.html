@@ -2,7 +2,7 @@
 <html lang="he">
 <head>
   <meta charset="UTF-8">
-  <title>לובי הזמיר 15 נהריה – תצוגה חיה</title>
+  <title>לובי הבניין – תצוגה חיה</title>
   <style>
 body {
   margin: 0;
@@ -94,7 +94,7 @@ body {
       display: flex;
       justify-content: space-between;
       padding: 0 40px;
-      font-size: 2.8em;
+      font-size: 2.0em;
       color: #fff;
       font-weight: bold;
       z-index: 10;
@@ -201,11 +201,7 @@ body {
     updateGregorianDate();
     updateHebrewDate();
 
-    setInterval(() => {
-  updateGregorianDate();
-  updateHebrewDate();
-}, 60000); // רענון כל 60,000 מילישניות = 1 דקה
-
+    
 
     const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
     const city = "Nahariya";
@@ -315,17 +311,14 @@ updateCombinedTicker();
 setInterval(showNextCombinedHeadline, 7000);   // מעבר בין כותרות
 setInterval(updateCombinedTicker, 30000);      // החלפה בין חדשות וספורט
 
-// עדכון כל 5 דקות - מבוטל
-// setTimeout(() => {
-//  location.reload();
-//}, 300000); // רענון כל 300,000 מילישניות = 5 דקות
+
+setTimeout(() => {
+  location.reload();
+}, 300000); // רענון כל 300,000 מילישניות = 5 דקות
 
   </script>
 </body>
 </html>
-
-
-
 
 
 
