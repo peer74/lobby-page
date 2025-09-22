@@ -200,7 +200,10 @@ body {
 
     updateGregorianDate();
     updateHebrewDate();
-
+setInterval(() => {
+  updateGregorianDate();
+  updateHebrewDate();
+}, 60000); // עדכון התאריך בכל דקה
     
 
     const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
@@ -319,6 +322,7 @@ setTimeout(() => {
   </script>
 </body>
 </html>
+
 
 
 
