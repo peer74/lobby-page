@@ -201,7 +201,11 @@ body {
     updateGregorianDate();
     updateHebrewDate();
 
-    
+    setInterval(() => {
+  updateGregorianDate();
+  updateHebrewDate();
+}, 60000); // רענון כל 60,000 מילישניות = 1 דקה
+
 
     const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
     const city = "Nahariya";
@@ -311,10 +315,10 @@ updateCombinedTicker();
 setInterval(showNextCombinedHeadline, 7000);   // מעבר בין כותרות
 setInterval(updateCombinedTicker, 30000);      // החלפה בין חדשות וספורט
 
-
-setTimeout(() => {
-  location.reload();
-}, 300000); // רענון כל 300,000 מילישניות = 5 דקות
+// עדכון כל 5 דקות - מבוטל
+// setTimeout(() => {
+//  location.reload();
+//}, 300000); // רענון כל 300,000 מילישניות = 5 דקות
 
   </script>
 </body>
