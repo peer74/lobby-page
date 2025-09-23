@@ -2,7 +2,7 @@
 <html lang="he">
 <head>
   <meta charset="UTF-8">
-  <title>לובי הבניין – תצוגה חיה</title>
+  <title>לובי הזמיר 15 – תצוגה חיה</title>
   <style>
 body {
   margin: 0;
@@ -68,7 +68,7 @@ body {
     .text {
       font-size: 1.5em;
     }
-  .weather-box, .shabbat-box, .parasha-box {
+  .weather-box, .shabbat-box, .parasha-box,.weather-box.compact {
   position: absolute;
   width: 360px;
   background-color: rgba(51, 51, 51, 0.7); /* אפור כהה עם שקיפות 70% */
@@ -79,6 +79,37 @@ body {
   font-size: 1.5em;
   line-height: 1.6;
 }
+.weather-box.compact h2 {
+  font-size: 1.2em;
+  color: #ffd700;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 2px #000;
+  font-weight: bold;
+}
+
+.forecast-day {
+  display: inline-block;
+  width: 80px;
+  margin: 10px;
+}
+
+.forecast-day img {
+  width: 50px;
+  height: 50px;
+}
+
+.forecast-day h3 {
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+
+.forecast-day .temp {
+  font-size: 0.9em;
+  margin-top: 4px;
+}
+
+
+
     .weather-box { top: 160px; left: 40px; }
     .shabbat-box { top: 160px; right: 40px; }
     .parasha-box { top: 380px; left: 40px; }
@@ -127,15 +158,10 @@ body {
     <div class="hebrew-date" id="hebrewDate">טוען תאריך עברי...</div>
   </div>
 
-  <div class="weather-box">
-    <h3>🌤️ מזג האוויר בנהריה</h3>
-    <img id="weatherIcon" src="" alt="אייקון מזג אוויר" style="width:80px;height:80px;">
-    <p id="temp">טוען טמפרטורה...</p>
-    <p id="feels"></p>
-    <p id="sky"></p>
-    <p id="humidity"></p>
-    <p id="wind"></p>
-  </div>
+  <div id="weather-forecast" class="weather-box compact">
+  <h2>תחזית מזג האוויר</h2>
+</div>
+
 
 <div class="shabbat-box">
   <h3>🕯️ זמני שבת וחג</h3>
@@ -207,32 +233,59 @@ setInterval(() => {
     
 
     const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
-    const city = "Nahariya";
-    const units = "metric";
+const city = 'Nahariya,IL';
 
-    async function updateWeather() {
-      try {
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&lang=he&appid=${apiKey}`;
-        const response = await fetch(url);
-        const data = await response.json();
+// מזג אוויר נוכחי
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=he`)
+  .then(response => response.json())
+  .then(current => {
+    const forecastContainer = document.getElementById('weather-forecast');
+    forecastContainer.innerHTML = '<h2>תחזית מזג האוויר</h2>';
 
-        const iconCode = data.weather[0].icon;
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    const icon = current.weather[0].icon;
+    const temp = Math.round(current.main.temp);
 
-        document.getElementById("weatherIcon").src = iconUrl;
-        document.getElementById("temp").textContent = `🌡️ טמפרטורה: ${Math.round(data.main.temp)}°C`;
-        document.getElementById("feels").textContent = `🧥 מרגיש כמו: ${Math.round(data.main.feels_like)}°C`;
-        document.getElementById("sky").textContent = `☁️ מצב השמיים: ${data.weather[0].description}`;
-        document.getElementById("humidity").textContent = `💧 לחות: ${data.main.humidity}%`;
-        document.getElementById("wind").textContent = `🍃 רוח: ${data.wind.speed} מ'/ש'`;
-      } catch (error) {
-        console.error("שגיאה בטעינת מזג האוויר:", error);
-        document.getElementById("temp").textContent = "לא ניתן לטעון מזג אוויר";
+    forecastContainer.innerHTML += `
+      <div class="forecast-day">
+        <h3>היום</h3>
+        <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="">
+        <div class="temp">${temp}°</div>
+      </div>
+    `;
+  });
+
+// תחזית ל־5 ימים
+fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=he`)
+  .then(response => response.json())
+  .then(data => {
+    const forecastContainer = document.getElementById('weather-forecast');
+
+    const dailyForecasts = {};
+
+    data.list.forEach(item => {
+      const date = item.dt_txt.split(' ')[0];
+      const hour = item.dt_txt.split(' ')[1].split(':')[0];
+      if (hour === '12' && !dailyForecasts[date]) {
+        dailyForecasts[date] = item;
       }
-    }
+    });
 
-    updateWeather();
-    setInterval(updateWeather, 300000); // רענון כל 5 דקות
+    Object.keys(dailyForecasts).slice(0, 5).forEach(date => {
+      const item = dailyForecasts[date];
+      const icon = item.weather[0].icon;
+      const temp = Math.round(item.main.temp);
+
+      forecastContainer.innerHTML += `
+        <div class="forecast-day">
+          <h3>${new Date(date).toLocaleDateString('he-IL', { weekday: 'short' })}</h3>
+          <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="">
+          <div class="temp">${temp}°</div>
+        </div>
+      `;
+    });
+  });
+
+
 
     // פרשת השבוע וזמני שבת
  async function updateShabbatTimes() {
