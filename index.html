@@ -77,7 +77,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   font-size: 1.5em;
-  line-height: 1.6;
+  line-height: 1.1;
 }
     .weather-box { top: 160px; left: 40px; }
     .shabbat-box { top: 160px; right: 40px; }
@@ -86,7 +86,24 @@ body {
       margin-top: 0;
       color: #ffd700;
     }
-    .date-bar {
+	
+	weather-box {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  width: 280px; /* היה 360px */
+  background-color: rgba(51, 51, 51, 0.7);
+  color: #fff;
+  padding: 15px; /* היה 20px */
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  font-size: 1em; /* היה 1.2em */
+  line-height: 1.2;
+}
+
+
+
+	.date-bar {
       position: absolute;
       top: 10px;
       left: 0;
@@ -118,6 +135,29 @@ body {
   transition: opacity 0.5s ease-in-out;
 }
 
+ .forecast-day {
+  width: 50px; /* היה 60px */
+  padding: 8px; /* היה 10px */
+}
+
+
+.forecast-day .date {
+  font-size: 0.8em;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.forecast-day img {
+  width: 32px;
+  height: 32px;
+ 
+
+.forecast-day .temp {
+  font-size: 1em;
+  font-weight: bold;
+  color: #ffd700;
+}
+
     a { color: #ffd700; text-decoration: none; }
   </style>
 </head>
@@ -128,14 +168,20 @@ body {
   </div>
 
   <div class="weather-box">
-    <h3>🌤️ מזג האוויר בנהריה</h3>
-    <img id="weatherIcon" src="" alt="אייקון מזג אוויר" style="width:80px;height:80px;">
-    <p id="temp">טוען טמפרטורה...</p>
-    <p id="feels"></p>
-    <p id="sky"></p>
-    <p id="humidity"></p>
-    <p id="wind"></p>
-  </div>
+  <h3>🌤️ מזג האוויר בנהריה</h3>
+ <!--  <img id="weatherIcon" src="" alt="אייקון מזג אוויר" style="width:40px;height:40px;"> -->
+  <p id="temp">טוען טמפרטורה...</p>
+  <p id="feels"></p>
+  <p id="sky"></p>
+  <p id="humidity"></p>
+  <p id="wind">רוח: 12 קמ"ש</p>
+<div style="height:40px;"></div>
+
+	<h3>🗓️ תחזית ל-5 ימים</h3>
+  <div id="forecast-grid" style="display:flex; justify-content:space-between; gap:10px; margin-top:10px;"></div>
+  <p id="forecast-updated" style="font-size:0.9em; color:#ccc;"></p>
+</div>
+
 
 <div class="shabbat-box">
   <h3>🕯️ זמני שבת וחג</h3>
@@ -203,10 +249,11 @@ body {
 setInterval(() => {
   updateGregorianDate();
   updateHebrewDate();
-}, 60000); // עדכון התאריך בכל דקה
+}, 30000); // עדכון התאריך בכל חצי דקה
     
 
-    const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
+// תחזית בנהריה
+       const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
     const city = "Nahariya";
     const units = "metric";
 
@@ -216,10 +263,6 @@ setInterval(() => {
         const response = await fetch(url);
         const data = await response.json();
 
-        const iconCode = data.weather[0].icon;
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-        document.getElementById("weatherIcon").src = iconUrl;
         document.getElementById("temp").textContent = `🌡️ טמפרטורה: ${Math.round(data.main.temp)}°C`;
         document.getElementById("feels").textContent = `🧥 מרגיש כמו: ${Math.round(data.main.feels_like)}°C`;
         document.getElementById("sky").textContent = `☁️ מצב השמיים: ${data.weather[0].description}`;
@@ -233,6 +276,51 @@ setInterval(() => {
 
     updateWeather();
     setInterval(updateWeather, 300000); // רענון כל 5 דקות
+
+async function loadFiveDayCompactForecast() {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=Nahariya&units=metric&cnt=40&appid=d3f2d3be9e14990f231fd3beee10325c&lang=he`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const dailyData = {};
+    data.list.forEach(item => {
+      const date = item.dt_txt.split(' ')[0];
+      if (!dailyData[date]) {
+        dailyData[date] = item;
+      }
+    });
+
+    const grid = document.getElementById("forecast-grid");
+    grid.innerHTML = "";
+
+    Object.keys(dailyData).slice(0, 5).forEach(date => {
+      const item = dailyData[date];
+      const icon = item.weather[0].icon;
+      const temp = Math.round(item.main.temp);
+      const dayName = new Date(date).toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'numeric' });
+
+      const div = document.createElement("div");
+      div.className = "forecast-day";
+      div.innerHTML = `
+        <div class="date">${dayName}</div>
+        <img src="https://openweathermap.org/img/wn/${icon}.png" alt="icon">
+        <div class="temp">${temp}°</div>
+      `;
+      grid.appendChild(div);
+    });
+
+    document.getElementById("forecast-updated").textContent =
+      `עודכן לאחרונה: ${new Date().toLocaleTimeString('he-IL')}`;
+  } catch (error) {
+    console.error("שגיאה בתחזית:", error);
+    document.getElementById("forecast-grid").innerHTML = "<p>לא ניתן לטעון תחזית</p>";
+  }
+}
+
+loadFiveDayCompactForecast();
+setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
 
     // פרשת השבוע וזמני שבת
  async function updateShabbatTimes() {
@@ -311,13 +399,9 @@ function showNextCombinedHeadline() {
 }
 
 updateCombinedTicker();
-setInterval(showNextCombinedHeadline, 7000);   // מעבר בין כותרות
-setInterval(updateCombinedTicker, 70000);      // החלפה בין חדשות וספורט
+setInterval(showNextCombinedHeadline, 5000);   // מעבר בין כותרות
+setInterval(updateCombinedTicker, 50000);      // החלפה בין חדשות וספורט
 
-
-// setTimeout(() => {
-//  location.reload();
-// }, 1800000); // רענון כל 1,800,000 מילישניות = חצי שעה 
 
   </script>
 </body>
