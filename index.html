@@ -182,16 +182,18 @@ body {
   <p id="forecast-updated" style="font-size:0.9em; color:#ccc;"></p>
 </div>
 
+
 <div class="shabbat-box">
-  <h3>🕯️ זמני שבת בנהריה</h3>
-  <p id="parashaTitle">פרשת השבוע: וילך</p>
-  <p id="parashaDate">תאריך עברי: ד' תשרי תשפ"ו</p>
-  <p id="gregorianDate">תאריך לועזי: 26.9.2025</p>
-  <p id="candleLighting">כניסת שבת: 18:00</p>
-  <p id="havdalah">יציאת שבת: 19:06</p>
+  <h3>🕯️ זמני שבת וחג</h3>
+  <div id="candleLighting"></div>
+  <div style="height:20px;"></div>
+  <div id="havdalah"></div>
+  <div style="height:20px;"></div>
+<div id="parasha"></div>
+  <div style="height:20px;"></div>
+<div id="parashaDate"></div>
+
 </div>
-
-
 
 <div class="holiday-message">
 ועד הבית מאחל לכל הדיירים שנה טובה.
@@ -324,7 +326,56 @@ async function loadFiveDayCompactForecast() {
 loadFiveDayCompactForecast();
 setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
 
-  
+    // פרשת השבוע וזמני שבת
+ function updateShabbatTimes() {
+   const url = "https://www.hebcal.com/shabbat/?cfg=json&geonameid=294117&m=50";
+
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const candle = data.items.find(item => item.category === "candles");
+      const havdalah = data.items.find(item => item.category === "havdalah");
+      const parasha = data.items.find(item => item.category === "parashat");
+
+      document.getElementById("candleLighting").textContent =
+        `🕯️ כניסת שבת/חג: ${candle?.title.split(": ")[1] || "לא זמין"}`;
+
+      document.getElementById("havdalah").textContent =
+        `✨ יציאה: ${havdalah?.title.split(": ")[1] || "לא זמין"}`;
+
+      document.getElementById("parasha").textContent =
+  `📖 פרשת השבוע: ${parasha?.hebrew}`;
+
+      // הוספת תאריך עברי לפרשת השבוע
+      if (parasha) {
+        const parashaDate = new Date(parasha.date);
+        const hebcalDateUrl = `https://www.hebcal.com/converter?cfg=json&gy=${parashaDate.getFullYear()}&gm=${parashaDate.getMonth() + 1}&gd=${parashaDate.getDate()}&g2h=1`;
+
+        fetch(hebcalDateUrl)
+          .then(res => res.json())
+          .then(hebrewData => {
+            document.getElementById("parashaDate").textContent =
+              `📅 תאריך עברי: ${hebrewData.hebrew}`;
+          })
+          .catch(() => {
+            document.getElementById("parashaDate").textContent =
+              "📅 תאריך עברי: לא זמין";
+          });
+      }
+    })
+    .catch(error => {
+      console.error("שגיאה בטעינת נתוני שבת:", error);
+      document.getElementById("candleLighting").textContent = "🕯️ כניסת שבת: שגיאה";
+      document.getElementById("havdalah").textContent = "✨ יציאה: שגיאה";
+      document.getElementById("parasha").textContent = "📖 פרשת השבוע: שגיאה";
+      document.getElementById("parashaDate").textContent = "📅 תאריך עברי: שגיאה";
+    });
+}
+
+
+updateShabbatTimes();
+setInterval(updateShabbatTimes, 3600000); // רענון כל שעה
 
     // עדכוני חדשות
 let combinedHeadlines = [];
