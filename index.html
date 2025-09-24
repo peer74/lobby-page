@@ -184,7 +184,7 @@ body {
 
 
 <div class="shabbat-box">
-  <h3>🕯️ זמני שבת וחג</h3>
+  <h3>🕯️ זמני שבת </h3>
   <div id="candleLighting"></div>
   <div style="height:20px;"></div>
   <div id="havdalah"></div>
@@ -339,7 +339,7 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
       const parasha = data.items.find(item => item.category === "parashat");
 
       document.getElementById("candleLighting").textContent =
-        `🕯️ כניסת שבת/חג: ${candle?.title.split(": ")[1] || "לא זמין"}`;
+        `🕯️ כניסת שבת: ${candle?.title.split(": ")[1] || "לא זמין"}`;
 
       document.getElementById("havdalah").textContent =
         `✨ יציאה: ${havdalah?.title.split(": ")[1] || "לא זמין"}`;
@@ -431,6 +431,7 @@ setInterval(updateCombinedTicker, 50000);      // החלפה בין חדשות �
   </script>
 </body>
 </html>
+
 
 
 
