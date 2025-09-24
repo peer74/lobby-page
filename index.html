@@ -182,14 +182,16 @@ body {
   <p id="forecast-updated" style="font-size:0.9em; color:#ccc;"></p>
 </div>
 
-
 <div class="shabbat-box">
-  <h3>🕯️ זמני שבת וחג</h3>
-  <p id="parashaTitle">פרשת השבוע: טוען...</p>
-  <p id="parashaDate">תאריך: טוען...</p>
-  <p id="candleLighting">כניסת שבת/חג: טוען...</p>
-  <p id="havdalah">יציאה: טוען...</p>
+  <h3>🕯️ זמני שבת בנהריה</h3>
+  <p id="parashaTitle">פרשת השבוע: וילך</p>
+  <p id="parashaDate">תאריך עברי: ד' תשרי תשפ"ו</p>
+  <p id="gregorianDate">תאריך לועזי: 26.9.2025</p>
+  <p id="candleLighting">כניסת שבת: 18:00</p>
+  <p id="havdalah">יציאת שבת: 19:06</p>
 </div>
+
+
 
 <div class="holiday-message">
 ועד הבית מאחל לכל הדיירים שנה טובה.
@@ -322,35 +324,7 @@ async function loadFiveDayCompactForecast() {
 loadFiveDayCompactForecast();
 setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
 
-    // פרשת השבוע וזמני שבת
- async function updateShabbatTimes() {
-  const url = "https://www.hebcal.com/shabbat/?cfg=json&geonameid=294801&m=50"; // נהריה
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    const items = data.items;
-    const candle = items.find(i => i.category === "candles");
-    const havdalah = items.find(i => i.category === "havdalah");
-    const parasha = items.find(i => i.category === "parashat");
-
-    // פרשת השבוע
-    document.getElementById("parashaTitle").textContent = parasha?.hebrew || parasha?.title || "לא זמין";
-    document.getElementById("parashaDate").textContent = `תאריך: ${new Date(parasha.date).toLocaleDateString('he-IL')}`;
-
-    // זמני שבת וחג
-    document.getElementById("candleLighting").textContent = `כניסת שבת/חג: ${candle?.title.split(": ")[1] || "לא זמין"}`;
-    document.getElementById("havdalah").textContent = `יציאה: ${havdalah?.title.split(": ")[1] || "לא זמין"}`;
-  } catch (error) {
-    console.error("שגיאה בזמני שבת:", error);
-    document.getElementById("parashaTitle").textContent = "לא ניתן לטעון פרשת השבוע";
-    document.getElementById("candleLighting").textContent = "לא ניתן לטעון כניסת שבת";
-    document.getElementById("havdalah").textContent = "לא ניתן לטעון יציאה";
-  }
-}
-
-updateShabbatTimes();
-setInterval(updateShabbatTimes, 3600000); // רענון כל שעה
+  
 
     // עדכוני חדשות
 let combinedHeadlines = [];
