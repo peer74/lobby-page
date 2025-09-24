@@ -299,7 +299,7 @@ async function loadFiveDayCompactForecast() {
       const item = dailyData[date];
       const icon = item.weather[0].icon;
       const temp = Math.round(item.main.temp);
-      const dayName = new Date(date).toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'numeric' });
+      const dayName = new Date(date).toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'numeric' });
 
       const div = document.createElement("div");
       div.className = "forecast-day";
@@ -406,6 +406,7 @@ setInterval(updateCombinedTicker, 50000);      // החלפה בין חדשות �
   </script>
 </body>
 </html>
+
 
 
 
