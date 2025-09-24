@@ -9,6 +9,7 @@ body {
   padding: 0;
   font-family: 'Frank Ruhl Libre', serif;
   min-height: 100vh;
+  / background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
   background-image: url('https://copilot.microsoft.com/th/id/BCO.c3dd5980-e855-4e73-bef5-5b5aae4a7000.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -52,13 +53,14 @@ body {
   background: none;
   box-shadow: none;
 }
-.holiday-message {
+.VAAD-message {
   font-size: 6em;
   text-align: center;
   margin: 40px auto;
   color: #8B0000; /* צבע כהה */
+  / background-color: rgba(51, 51, 51, 0.3); /* אפור כהה עם שקיפות 70% */
   font-weight: bold;
-  background: none;
+
 }
     .date {
       font-size: 1.2em;
@@ -71,7 +73,7 @@ body {
   .weather-box, .shabbat-box, .parasha-box {
   position: absolute;
   width: 360px;
-  background-color: rgba(51, 51, 51, 0.7); /* אפור כהה עם שקיפות 70% */
+  background-color: rgba(51, 51, 51, 0.5); /* אפור כהה עם שקיפות 70% */
   color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -195,7 +197,7 @@ body {
 
 </div>
 
-<div class="holiday-message">
+<div class="VAAD-message">
 ועד הבית מאחל לכל הדיירים שנה טובה.
 </div>
 
@@ -342,7 +344,7 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
         `🕯️ כניסת שבת: ${candle?.title.split(": ")[1] || "לא זמין"}`;
 
       document.getElementById("havdalah").textContent =
-        `✨ יציאה: ${havdalah?.title.split(": ")[1] || "לא זמין"}`;
+        `✨ יציאת שבת: ${havdalah?.title.split(": ")[1] || "לא זמין"}`;
 
       document.getElementById("parasha").textContent =
   `📖 פרשת השבוע: ${parasha?.hebrew}`;
