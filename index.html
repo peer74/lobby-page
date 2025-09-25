@@ -330,7 +330,7 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
 
     // פרשת השבוע וזמני שבת
  function updateShabbatTimes() {
-   const url = "https://www.hebcal.com/shabbat/?cfg=json&geonameid=294117&m=50";
+   const url = "https://www.hebcal.com/shabbat?cfg=json&geonameid=294117&b=30&M=on&m=50";
 
 
   fetch(url)
@@ -433,6 +433,7 @@ setInterval(updateCombinedTicker, 50000);      // החלפה בין חדשות �
   </script>
 </body>
 </html>
+
 
 
 
