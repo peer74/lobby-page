@@ -7,6 +7,8 @@
 body {
   margin: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
   font-family: 'Frank Ruhl Libre', serif;
   min-height: 100vh;
   / background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
@@ -16,8 +18,11 @@ body {
   background-position: center center;
   background-attachment: fixed;
   color: #fff;
+  overflow: hidden;
   direction: rtl;
 }
+
+
     .container {
       display: none;
 	  padding: 40px;
@@ -72,15 +77,17 @@ body {
     }
   .weather-box, .shabbat-box, .parasha-box {
   position: absolute;
-  width: 360px;
-  background-color: rgba(51, 51, 51, 0.5); /* אפור כהה עם שקיפות 70% */
+  width: 90vw; /* רוחב יחסי למסך */
+  max-width: 400px; /* גבול מקסימלי */
+  background-color: rgba(51, 51, 51, 0.5);
   color: #fff;
-  padding: 20px;
+  padding: 5vw;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   font-size: 1.5em;
   line-height: 1.1;
 }
+
     .weather-box { top: 160px; left: 40px; }
     .shabbat-box { top: 160px; right: 40px; }
     .parasha-box { top: 380px; left: 40px; }
@@ -175,9 +182,10 @@ body {
   <p id="temp">טוען טמפרטורה...</p>
   <p id="feels"></p>
   <p id="sky"></p>
+  <p id="uv">🔆 קרינת UV: טוען...</p>
   <p id="humidity"></p>
-  <p id="wind">רוח: 12 קמ"ש</p>
-<div style="height:40px;"></div>
+  <p id="wind"> קמ"ש</p>
+<div style="height:20px;"></div>
 
 	<h3>🗓️ תחזית ל-5 ימים</h3>
   <div id="forecast-grid" style="display:flex; justify-content:space-between; gap:10px; margin-top:10px;"></div>
@@ -187,13 +195,14 @@ body {
 
 <div class="shabbat-box">
   <h3>🕯️ זמני שבת </h3>
+  <div id="parashaDate"></div>
+  <div style="height:20px;"></div>  
   <div id="candleLighting"></div>
   <div style="height:20px;"></div>
   <div id="havdalah"></div>
   <div style="height:20px;"></div>
-<div id="parasha"></div>
-  <div style="height:20px;"></div>
-<div id="parashaDate"></div>
+  <div id="parasha"></div>
+
 
 </div>
 
@@ -264,21 +273,40 @@ setInterval(() => {
     const units = "metric";
 
     async function updateWeather() {
-      try {
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&lang=he&appid=${apiKey}`;
-        const response = await fetch(url);
-        const data = await response.json();
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&lang=he&appid=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
 
-        document.getElementById("temp").textContent = `🌡️ טמפרטורה: ${Math.round(data.main.temp)}°C`;
-        document.getElementById("feels").textContent = `🧥 מרגיש כמו: ${Math.round(data.main.feels_like)}°C`;
-        document.getElementById("sky").textContent = `☁️ מצב השמיים: ${data.weather[0].description}`;
-        document.getElementById("humidity").textContent = `💧 לחות: ${data.main.humidity}%`;
-        document.getElementById("wind").textContent = `🍃 רוח: ${data.wind.speed} מ'/ש'`;
-      } catch (error) {
-        console.error("שגיאה בטעינת מזג האוויר:", error);
-        document.getElementById("temp").textContent = "לא ניתן לטעון מזג אוויר";
-      }
-    }
+    document.getElementById("temp").textContent = `🌡️ טמפרטורה: ${Math.round(data.main.temp)}°C`;
+    document.getElementById("feels").textContent = `🧥 מרגיש כמו: ${Math.round(data.main.feels_like)}°C`;
+    document.getElementById("sky").textContent = `☁️ מצב השמיים: ${data.weather[0].description}`;
+    document.getElementById("humidity").textContent = `💧 לחות: ${data.main.humidity}%`;
+    document.getElementById("wind").textContent = `🍃 רוח: ${data.wind.speed} מ'/ש'`;
+
+    // קריאה לנתוני UV לפי קואורדינטות של נהריה
+    const lat = 33.0059;
+    const lon = 35.0941;
+    const uvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    const uvResponse = await fetch(uvUrl);
+    const uvData = await uvResponse.json();
+    const uv = uvData.value;
+
+    let riskLevel = '';
+    if (uv < 3) riskLevel = 'נמוכה';
+    else if (uv < 6) riskLevel = 'בינונית';
+    else if (uv < 8) riskLevel = 'גבוהה';
+    else if (uv < 11) riskLevel = 'מאוד גבוהה';
+    else riskLevel = 'קיצונית';
+
+    document.getElementById("uv").textContent = `🔆 קרינת UV: ${uv} (${riskLevel})`;
+
+  } catch (error) {
+    console.error("שגיאה בטעינת מזג האוויר או UV:", error);
+    document.getElementById("temp").textContent = "לא ניתן לטעון מזג אוויר";
+    document.getElementById("uv").textContent = "🔆 קרינת UV: לא זמינה";
+  }
+}
 
     updateWeather();
     setInterval(updateWeather, 300000); // רענון כל 5 דקות
@@ -330,8 +358,7 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
 
     // פרשת השבוע וזמני שבת
  function updateShabbatTimes() {
-   const url = "https://www.hebcal.com/shabbat?cfg=json&geonameid=294117&b=30&M=on&m=50";
-
+      const url = "https://www.hebcal.com/shabbat?cfg=json&geonameid=294117&b=30&M=on&m=50";
 
   fetch(url)
     .then(response => response.json())
@@ -433,7 +460,6 @@ setInterval(updateCombinedTicker, 50000);      // החלפה בין חדשות �
   </script>
 </body>
 </html>
-
 
 
 
