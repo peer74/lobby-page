@@ -180,7 +180,6 @@ body {
   <p id="temp">טוען טמפרטורה...</p>
   <p id="feels"></p>
   <p id="sky"></p>
-  <p id="uv">🔆 קרינת UV: טוען...</p>
   <p id="humidity"></p>
   <p id="wind"> קמ"ש</p>
 <div style="height:20px;"></div>
@@ -272,7 +271,7 @@ setInterval(() => {
 
     async function updateWeather() {
   try {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&lang=he&appid=${apiKey}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=Nahariya&units=metric&lang=he&appid=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
 
@@ -282,27 +281,11 @@ setInterval(() => {
     document.getElementById("humidity").textContent = `💧 לחות: ${data.main.humidity}%`;
     document.getElementById("wind").textContent = `🍃 רוח: ${data.wind.speed} מ'/ש'`;
 
-    // קריאה לנתוני UV לפי קואורדינטות של נהריה
-    const lat = 33.0059;
-    const lon = 35.0941;
-    const uvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-    const uvResponse = await fetch(uvUrl);
-    const uvData = await uvResponse.json();
-    const uv = uvData.value;
-
-    let riskLevel = '';
-    if (uv < 3) riskLevel = 'נמוכה';
-    else if (uv < 6) riskLevel = 'בינונית';
-    else if (uv < 8) riskLevel = 'גבוהה';
-    else if (uv < 11) riskLevel = 'מאוד גבוהה';
-    else riskLevel = 'קיצונית';
-
-    document.getElementById("uv").textContent = `🔆 קרינת UV: ${uv} (${riskLevel})`;
-
+  
   } catch (error) {
     console.error("שגיאה בטעינת מזג האוויר או UV:", error);
     document.getElementById("temp").textContent = "לא ניתן לטעון מזג אוויר";
-    document.getElementById("uv").textContent = "🔆 קרינת UV: לא זמינה";
+
   }
 }
 
