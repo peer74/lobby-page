@@ -11,7 +11,7 @@ body {
   height: 100vh;
   font-family: 'Frank Ruhl Libre', serif;
   min-height: 100vh;
-  / background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
+   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
   background-image: url('https://copilot.microsoft.com/th/id/BCO.c3dd5980-e855-4e73-bef5-5b5aae4a7000.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -24,15 +24,18 @@ body {
 
 
     .container {
-      display: none;
-	  padding: 40px;
+     /  display: none;
+	/  padding: 40px;
       max-width: 1000px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  background-color: rgba(51, 51, 51, 0.3); /* אפור כהה עם שקיפות 70% */
+	  
       margin: auto;
     }
     h1 {
       text-align: center;
       font-size: 3em;
-      margin-bottom: 20px;
+      border-bottom: 2px solid #00bcd4;
       color: #00bcd4;
     }
     .clock {
@@ -43,20 +46,14 @@ body {
   font-weight: bold;
 }
 
-    .section-title {
-      font-size: 2em;
-      margin-top: 40px;
-      margin-bottom: 20px;
-      color: #ff9800;
-      border-bottom: 2px solid #ff9800;
-      padding-bottom: 10px;
-    }
+   
   .message {
-  padding: 20px;
-  margin-bottom: 20px;
+  
+  text-align: center;
   border-radius: 0;
-  background: none;
-  box-shadow: none;
+      font-size: 1.8em;
+       color: #FF00FF;
+ / box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 .VAAD-message {
   font-size: 6em;
@@ -211,14 +208,12 @@ body {
    <div class="container">
    <h1>הודעות ועד הבית</h1>
 
-    <div class="section-title">הודעות פנימיות</div>
     <div class="message">
-      <div class="date">22 בספטמבר 2025</div>
-      <div class="text">ביום רביעי תבוצע שטיפת חניון בין השעות 08:00–12:00. נא לפנות רכבים מראש.</div>
+        <div class="text">בחצי השנה האחרונה הוזמנה ביובית פעמיים עקב הצפה של הביוב.</div>
+		<div class="text">הנכם מתבקשים להימנע מהשלכת מגבונים לאסלה. </div>
     </div>
-    <div class="message">
-      <div class="date">20 בספטמבר 2025</div>
-      <div class="text">התקנת מצלמות אבטחה תבוצע ביום שישי הקרוב. ייתכנו הפרעות זמניות בגישה ללובי.</div>
+    
+      
     </div>
   </div>
 
