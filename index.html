@@ -11,10 +11,8 @@ body {
   height: 100vh;
   font-family: 'Frank Ruhl Libre', serif;
   min-height: 100vh;
-   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
-  / background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%A1%D7%95%D7%9B%D7%95%D7%AA.png?raw=true');
- background-image: url('https://github.com/peer74/lobby-page/blob/main/1%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%A1%D7%95%D7%9B%D7%95%D7%AA.png?raw=true');
-  /background-image: url('https://copilot.microsoft.com/th/id/BCO.c3dd5980-e855-4e73-bef5-5b5aae4a7000.png');
+  /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
+  background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%A9%D7%9E%D7%97%D7%AA%20%D7%AA%D7%95%D7%A8%D7%94.png?raw=true');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -41,13 +39,15 @@ body {
       border-bottom: 2px solid #ffd700;
       color: #ffd700;
     }
-    .clock {
+ .clock {
   text-align: center;
   font-size: 7em; /* גודל מוגדל */
   margin-bottom: 20px;
   color: #5c2c06;
   font-weight: bold;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6); /* הצללה */
 }
+
 
    
   .message {
@@ -58,15 +58,24 @@ body {
        color: #FFFACD;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
+@keyframes vaadColorShift {
+  0%   { color: #8B0000; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); }
+  25%  { color: #ff4500; text-shadow: 2px 2px 6px rgba(255, 69, 0, 0.7); }
+  50%  { color: #b8860b; text-shadow: 2px 2px 10px rgba(184, 134, 11, 0.8); } /* זהב כהה */
+  75%  { color: #00bcd4; text-shadow: 2px 2px 6px rgba(0, 188, 212, 0.7); }
+  100% { color: #8B0000; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); }
+}
+
 .VAAD-message {
   font-size: 6em;
   text-align: center;
   margin: 40px auto;
-  color: #8B0000; /* צבע כהה */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
   font-weight: bold;
-
+  animation: vaadColorShift 5s infinite;
+  transition: color 0.5s ease-in-out;
 }
+
+
     .date {
       font-size: 1.2em;
       color: #aaa;
@@ -171,9 +180,10 @@ body {
 </head>
 <body>
   <div class="date-bar">
-    <div class="gregorian-date" id="gregorianDate">טוען תאריך לועזי...</div>
-    <div class="hebrew-date" id="hebrewDate">טוען תאריך עברי...</div>
-  </div>
+  <div class="hebrew-date" id="hebrewDate">טוען תאריך עברי...</div>
+  <div class="gregorian-date" id="gregorianDate">טוען תאריך לועזי...</div>
+</div>
+
 
   <div class="weather-box">
   <h3>🌤️ מזג האוויר בנהריה</h3>
@@ -205,7 +215,7 @@ body {
 </div>
 
 <div class="VAAD-message">
-ועד הבית מאחל לכל הדיירים חג סוכות שמח.
+ועד הבית מאחל לכל הדיירים חג שמח.
 </div>
 
    <div class="clock" id="clock"></div>
@@ -237,24 +247,31 @@ body {
     updateClock();
 
     function updateGregorianDate() {
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById("gregorianDate").textContent = now.toLocaleDateString('he-IL', options);
-    }
+  const now = new Date();
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById("gregorianDate").textContent = now.toLocaleDateString('he-IL', options);
+}
+
 
     function updateHebrewDate() {
-      const now = new Date();
-      const gy = now.getFullYear();
-      const gm = now.getMonth() + 1;
-      const gd = now.getDate();
-      const url = `https://www.hebcal.com/converter?cfg=json&gy=${gy}&gm=${gm}&gd=${gd}&g2h=1`;
+  const now = new Date();
+  const gy = now.getFullYear();
+  const gm = now.getMonth() + 1;
+  const gd = now.getDate();
+  const weekday = now.toLocaleDateString('he-IL', { weekday: 'long' });
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById("hebrewDate").textContent = data.hebrew;
-        });
-    }
+  const url = `https://www.hebcal.com/converter?cfg=json&gy=${gy}&gm=${gm}&gd=${gd}&g2h=1`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("hebrewDate").textContent = ` ${weekday}, ${data.hebrew}`;
+    })
+    .catch(() => {
+      document.getElementById("hebrewDate").textContent = " תאריך עברי: שגיאה";
+    });
+}
+
 
     updateGregorianDate();
     updateHebrewDate();
@@ -442,7 +459,6 @@ setInterval(updateCombinedTicker, 50000);      // החלפה בין חדשות �
   </script>
 </body>
 </html>
-
 
 
 
