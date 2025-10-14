@@ -12,7 +12,8 @@ body {
   font-family: 'Frank Ruhl Libre', serif;
   min-height: 100vh;
   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
-  background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%A9%D7%9E%D7%97%D7%AA%20%D7%AA%D7%95%D7%A8%D7%94.jpg?raw=true');
+  /background-image: url('://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%A9%D7%9E%D7%97%D7%AA%20%D7%AA%D7%95%D7%A8%D7%94.png?raw=true');
+  background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?raw=true');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -43,7 +44,9 @@ body {
   text-align: center;
   font-size: 7em; /* גודל מוגדל */
   margin-bottom: 20px;
-  color: #5c2c06;
+  /color: #ffd700; /* זהב */
+  /color: #5c2c06;/* חום */
+  color: #39ff14; /* ירוק ניאון */
   font-weight: bold;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6); /* הצללה */
 }
@@ -186,7 +189,7 @@ body {
 
 
   <div class="weather-box">
-  <h3>🌤️ מזג האוויר בנהריה</h3>
+  <h3>🌤️ מזג האוויר בנהריה:</h3>
  <!--  <img id="weatherIcon" src="" alt="אייקון מזג אוויר" style="width:40px;height:40px;"> -->
   <p id="temp">טוען טמפרטורה...</p>
   <p id="feels"></p>
@@ -195,14 +198,14 @@ body {
   <p id="wind"> קמ"ש</p>
 <div style="height:20px;"></div>
 
-	<h3>🗓️ תחזית ל-5 ימים</h3>
+	<h3>🗓️ תחזית ל-5 ימים:</h3>
   <div id="forecast-grid" style="display:flex; justify-content:space-between; gap:10px; margin-top:10px;"></div>
   <p id="forecast-updated" style="font-size:0.9em; color:#ccc;"></p>
 </div>
 
 
 <div class="shabbat-box">
-  <h3>🕯️ זמני שבת </h3>
+  <h3>🕯🕯 זמני שבת:</h3>
   <div id="parashaDate"></div>
   <div style="height:20px;"></div>  
   <div id="candleLighting"></div>
@@ -215,12 +218,13 @@ body {
 </div>
 
 <div class="VAAD-message">
-ועד הבית מאחל לכל הדיירים חג שמח.
+ברוכים הבאים לזמיר 15.
 </div>
 
    <div class="clock" id="clock"></div>
    <div class="container">
-   <h1>הודעות ועד הבית</h1>
+   <h1>🏠 הודעות ועד הבית:</h1>
+
 
     <div class="message">
         <div class="text">הנכם מתבקשים להימנע מהשלכת מגבונים וסמרטוטים לאסלה. </div>
@@ -459,7 +463,6 @@ setInterval(updateCombinedTicker, 50000);      // החלפה בין חדשות �
   </script>
 </body>
 </html>
-
 
 
 
