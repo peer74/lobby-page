@@ -78,13 +78,66 @@ body {
 }
 
 .VAAD-message {
-  font-size: 8em;
+  font-size: 7em;
   text-align: center;
   margin: 40px auto;
   font-weight: bold;
   animation: vaadColorShift 5s infinite;
   transition: color 0.5s ease-in-out;
 }
+.left-box {
+  position: absolute;
+  top: 80px;
+  left: 40px;
+  width: 360px;
+  background-color: rgba(51, 51, 51, 0.5);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  font-size: 1.5em;
+  line-height: 1.0; /* הקטנת הרווח בין השורות */
+}
+
+
+
+.left-box {
+  position: absolute;
+  top: 80px;
+  left: 40px;
+  width: 360px;
+  background-color: rgba(51, 51, 51, 0.5);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  font-size: 1.5em;
+  line-height: 1.2; /* הקטנת הרווח הכללי בין השורות */
+}
+
+.left-box h3 {
+  margin-top: 0;
+  margin-bottom: 5px; /* הקטנת הרווח מתחת לשם */
+  color: #ffd700;     /* זהב */
+}
+
+.left-box p {
+  margin-top: 0;
+  margin-bottom: 12px; /* רווח קטן בין פסקאות */
+}
+
+.left-box .highlight {
+ color: #1e90ff;   /* כחול חדש שלא קיים בעמוד */
+
+  font-size: 1.3em;       /* הגדלת הפונט (אפשר לשחק עם הערך) */
+ 
+
+
+}
+
+ 
+
+
 
 
     .date {
@@ -256,6 +309,29 @@ body {
       
     </div>
   </div>
+<div class="left-box">
+ <h3 class="highlight">חלוקת הטיפול השוטף בבניין:</h3>
+  
+ <h3 style="border-bottom: 2px solid #ffd700;">סילביה בויאנזו</h3>
+<p>תחזוקת המעלית.<br><br></p>
+
+<h3 style="border-bottom: 2px solid #ffd700;">רמי אלפון</h3>
+<p>קולטי השמש.<br><br></p>
+
+ <h3 style="border-bottom: 2px solid #ffd700;">צ'רלי שיין</h3>
+<p>תחזוקת התאורה והמצלמות.</p>
+<p>קשר עם הגנן.<br><br></p>
+
+ <h3 style="border-bottom: 2px solid #ffd700;">אודליה שיין</h3>
+<p>קשר עם חברת הניקיון.<br><br></p>
+
+ <h3 style="border-bottom: 2px solid #ffd700;">אריה פרקביץ</h3>
+<p>מערכת המים החמים.<br><br></p>
+
+ <h3 style="border-bottom: 2px solid #ffd700;">רונן פאר</h3>
+<p>גבייה ותשלום לנותני השירות.</p>
+</div>
+
 
   <div class="news-ticker">
   <div id="newsTickerItem">🔄 טוען מבזקי חדשות וספורט...</div>
