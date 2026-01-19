@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>לובי הזמיר 15 – תצוגה חיה</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      font-family: 'Frank Ruhl Libre', serif;
+      min-height: 100vh;
+      background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?raw=true');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      color: #fff;
+      direction: rtl;
+    }
+
+    .container {
+      max-width: 1000px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      background-color: rgba(51, 51, 51, 0.8);
+      border-radius: 10px;
+      margin: auto;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      border-bottom: 2px solid #ffd700;
+      color: #ffd700;
+    }
+
+    .clock {
+      text-align: center;
+      font-size: 7em;
+      margin-bottom: 20px;
+      color: #FF00FF;
+      font-weight: bold;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .message {
+      text-align: center;
+      border-radius: 0;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #39ff14;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    @keyframes vaadColorShift {
+      0%   { color: #8B0000; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); }
+      25%  { color: #ff4500; text-shadow: 2px 2px 6px rgba(255, 69, 0, 0.7); }
+      50%  { color: #b8860b; text-shadow: 2px 2px 10px rgba(184, 134, 11, 0.8); }
+      75%  { color: #00bcd4; text-shadow: 2px 2px 6px rgba(0, 188, 212, 0.7); }
+      100% { color: #8B0000; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); }
+    }
+
+    .VAAD-message {
+      font-size: 6em;
+      text-align: center;
+      margin: 40px auto;
+      font-weight: bold;
+      animation: vaadColorShift 5s infinite;
+      transition: color 0.5s ease-in-out;
+    }
+
+    .left-box {
+      position: absolute;
+      top: 80px;
+      left: 40px;
+      width: 360px;
+      background-color: rgba(30, 30, 30, 0.85);
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      font-size: 1.5em;
+      line-height: 1.2;
+    }
+
+    .left-box h3 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      color: #ffd700;
+    }
+
+    .left-box p {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .left-box .highlight {
+      color: #1e90ff;
+      font-size: 1.3em;
+      text-align: center;
+    }
+
+    .date {
+      font-size: 1.2em;
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+
+    .text {
+      font-size: 1.5em;
+    }
+
+    .weather-box,
+    .shabbat-box,
+    .parasha-box {
+      position: absolute;
+      width: 360px;
+      background-color: rgba(30, 30, 30, 0.85);
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      font-size: 1.5em;
+      line-height: 1.1;
+    }
+
+    .shabbat-box {
+      top: 80px;
+      right: 40px;
+    }
+
+    .weather-box {
+      top: 380px;
+      right: 40px;
+    }
+
+    .parasha-box {
+      top: 380px;
+      left: 40px;
+    }
+
+    .weather-box h3,
+    .shabbat-box h3,
+    .parasha-box h3 {
+      margin-top: 0;
+      color: #ffd700;
+    }
+
+    .date-bar {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 40px;
+      font-size: 2.0em;
+      color: #fff;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+      z-index: 10;
+    }
+
+    .gregorian-date {
+      text-align: left;
+      color: #00bcd4;
+    }
+
+    .hebrew-date {
+      text-align: right;
+      color: #00bcd4;
+    }
+
+    .news-ticker {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: rgba(30, 30, 30, 0.85);
+      color: #fff;
+      font-size: 2em;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    #newsTickerItem {
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .forecast-day {
+      width: 60px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .forecast-day .date {
+      font-size: 0.8em;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+
+    .forecast-day img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .forecast-day .temp {
+      font-size: 1em;
+      font-weight: bold;
+      color: #ffd700;
+    }
+
+    a {
+      color: #ffd700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- כל שאר הקוד שלך נשאר זהה — רק ה־CSS הוחלף -->
+
+  <!-- ... -->
+
+</body>
+</html>
+  <div class="date-bar">
+    <div class="hebrew-date" id="hebrewDate">טוען תאריך עברי...</div>
+    <div class="gregorian-date" id="gregorianDate">טוען תאריך לועזי...</div>
+  </div>
+
+  <div class="weather-box">
+    <h3>🌤️ מזג האוויר בנהריה:</h3>
+    <!-- <img id="weatherIcon" src="" alt="אייקון מזג אוויר" style="width:40px;height:40px;"> -->
+    <p id="temp">טוען טמפרטורה...</p>
+    <p id="feels"></p>
+    <p id="sky"></p>
+    <p id="humidity"></p>
+    <p id="wind">קמ"ש</p>
+    <div style="height:20px;"></div>
+    <h3>🗓️ תחזית ל-5 ימים:</h3>
+    <div id="forecast-grid" style="display:flex; justify-content:space-between; gap:10px; margin-top:10px;"></div>
+    <p id="forecast-updated" style="font-size:0.9em; color:#ccc;"></p>
+  </div>
+
+  <div class="shabbat-box">
+    <h3>🕯🕯 זמני שבת:</h3>
+    <div id="parashaDate"></div>
+    <div style="height:20px;"></div>
+    <div id="candleLighting"></div>
+    <div style="height:20px;"></div>
+    <div id="havdalah"></div>
+    <div style="height:20px;"></div>
+    <div id="parasha"></div>
+  </div>
+
+  <div class="VAAD-message">
+    ברוכים הבאים לזמיר 15.
+  </div>
+
+  <div class="clock" id="clock"></div>
+
+  <div class="container">
+    <h1>🏠 הודעות ועד הבית:</h1>
+    <div class="message">
+      <div class="text">מבקשים להזכיר כי התשלום החודשי לועד הבית עומד על ₪200.<br><br></div>
+      <div class="text">תשלום זה חיוני להמשך תחזוקת הבניין, ניקיון, תיקונים שוטפים</div>
+      <div class="text">ושמירה על איכות החיים המשותפת שלנו.<br><br></div>
+      <div class="text">ניתן לשלם בהוראת קבע, העברה בנקאית או אפליקציית תשלום.</div>
+      <div class="text">המחאות או מזומן ניתן להעביר לרונן, צ'רלי או סילביה.</div>
+    </div>
+  </div>
+
+  <div class="left-box">
+    <h3 class="highlight">ניתן לפנות לחברי הועד</h3>
+    <h3 class="highlight">בנושאים הבאים:<br><br></h3>
+
+    <h3 style="border-bottom: 2px solid #ffd700;">סילביה בויאנזו.</h3>
+    <p>תחזוקת המעלית.<br><br></p>
+
+    <h3 style="border-bottom: 2px solid #ffd700;">רמי אלפון.</h3>
+    <p>מערכת המים החמים.<br><br></p>
+
+    <h3 style="border-bottom: 2px solid #ffd700;">צ'רלי שיין.</h3>
+    <p>תחזוקת התאורה והמצלמות.</p>
+    <p>קשר עם הגנן.<br><br></p>
+
+    <h3 style="border-bottom: 2px solid #ffd700;">אודליה שיין.</h3>
+    <p>קשר עם חברת הניקיון.<br><br></p>
+
+    <h3 style="border-bottom: 2px solid #ffd700;">אריה פרקביץ.</h3>
+    <p>חדר המשאבות.<br><br></p>
+
+    <h3 style="border-bottom: 2px solid #ffd700;">רונן פאר.</h3>
+    <p>גבייה ותשלום לנותני השירות.</p>
+    <p>מסך התצוגה.</p>
+  </div>
+
+  <div class="news-ticker">
+    <div id="newsTickerItem">🔄 טוען מבזקי חדשות וספורט...</div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      document.getElementById('clock').textContent = now.toLocaleTimeString('he-IL', options);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function updateGregorianDate() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById("gregorianDate").textContent = now.toLocaleDateString('he-IL', options);
+    }
+
+    function updateHebrewDate() {
+      const now = new Date();
+      const gy = now.getFullYear();
+      const gm = now.getMonth() + 1;
+      const gd = now.getDate();
+      const weekday = now.toLocaleDateString('he-IL', { weekday: 'long' });
+
+      const url = `https://www.hebcal.com/converter?cfg=json&gy=${gy}&gm=${gm}&gd=${gd}&g2h=1`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("hebrewDate").textContent = ` ${weekday}, ${data.hebrew}`;
+        })
+        .catch(() => {
+          document.getElementById("hebrewDate").textContent = " תאריך עברי: שגיאה";
+        });
+    }
+
+    updateGregorianDate();
+    updateHebrewDate();
+    setInterval(() => {
+      updateGregorianDate();
+      updateHebrewDate();
+    }, 30000);
+
+    const apiKey = "d3f2d3be9e14990f231fd3beee10325c";
+
+    async function updateWeather() {
+      try {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=Nahariya&units=metric&lang=he&appid=${apiKey}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        document.getElementById("temp").textContent = `🌡️ טמפרטורה: ${Math.round(data.main.temp)}°C`;
+        document.getElementById("feels").textContent = `🧥 מרגיש כמו: ${Math.round(data.main.feels_like)}°C`;
+        document.getElementById("sky").textContent = `☁️ מצב השמיים: ${data.weather[0].description}`;
+        document.getElementById("humidity").textContent = `💧 לחות: ${data.main.humidity}%`;
+        document.getElementById("wind").textContent = `🍃 רוח: ${data.wind.speed} מ'/ש'`;
+      } catch (error) {
+        console.error("שגיאה בטעינת מזג האוויר:", error);
+        document.getElementById("temp").textContent = "לא ניתן לטעון מזג אוויר";
+      }
+    }
+
+    updateWeather();
+    setInterval(updateWeather, 300000);
+
+    async function loadFiveDayCompactForecast() {
+      const url = `https://api.openweathermap.org/data/2.5/forecast?q=Nahariya&units=metric&cnt=40&appid=${apiKey}&lang=he`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        const dailyData = {};
+        data.list.forEach(item => {
+          const date = item.dt_txt.split(' ')[0];
+          if (!dailyData[date]) {
+            dailyData[date] = item;
+          }
+        });
+
+        const grid = document.getElementById("forecast-grid");
+        grid.innerHTML = "";
+
+        Object.keys(dailyData).slice(0, 5).forEach(date => {
+          const item = dailyData[date];
+          const icon = item.weather[0].icon;
+          const temp = Math.round(item.main.temp);
+          const dayName = new Date(date).toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'numeric' });
+
+          const div = document.createElement("div");
+          div.className = "forecast-day";
+          div.innerHTML = `
+            <div class="date">${dayName}</div>
+            <img src="https://openweathermap.org/img/wn/${icon}.png" alt="icon">
+            <div class="temp">${temp}°</div>
+          `;
+          grid.appendChild(div);
+        });
+
+        document.getElementById("forecast-updated").textContent =
+          `עודכן לאחרונה: ${new Date().toLocaleTimeString('he-IL')}`;
+      } catch (error) {
+        console.error("שגיאה בתחזית:", error);
+        document.getElementById("forecast-grid").innerHTML = "<p>לא ניתן לטעון תחזית</p>";
+      }
+    }
+
+    loadFiveDayCompactForecast();
+    setInterval(loadFiveDayCompactForecast, 300000);
+
+    function updateShabbatTimes() {
+      const url = "https://www.hebcal.com/shabbat?cfg=json&geonameid=294117&b=30&M=on&m=50";
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const candle = data.items.find(item => item.category === "candles");
+          const havdalah = data.items.find(item => item.category === "havdalah");
+          const parasha = data.items.find(item => item.category === "parashat");
+
+          document.getElementById("candleLighting").textContent =
+            `🕯️ כניסת שבת: ${candle?.title.split(": ")[1] || "לא זמין"}`;
+
+          document.getElementById("havdalah").textContent =
+            `✨ יציאת שבת: ${havdalah?.title.split(": ")[1] || "לא זמין"}`;
+
+          document.getElementById("parasha").textContent =
+            `📖 פרשת השבוע: ${parasha?.hebrew}`;
+
+          if (parasha) {
+            const parashaDate = new Date(parasha.date);
+            const hebcalDateUrl =
+              `https://www.hebcal.com/converter?cfg=json&gy=${parashaDate.getFullYear()}&gm=${parashaDate.getMonth() + 1}&gd=${parashaDate.getDate()}&g2h=1`;
+
+            fetch(hebcalDateUrl)
+              .then(res => res.json())
+              .then(hebrewData => {
+                document.getElementById("parashaDate").textContent =
+                  `📅 תאריך עברי: ${hebrewData.hebrew}`;
+              })
+              .catch(() => {
+                document.getElementById("parashaDate").textContent =
+                  "📅 תאריך עברי: לא זמין";
+              });
+          }
+        })
+        .catch(error => {
+          console.error("שגיאה בטעינת נתוני שבת:", error);
+          document.getElementById("candleLighting").textContent = "🕯️ כניסת שבת: שגיאה";
+          document.getElementById("havdalah").textContent = "✨ יציאה: שגיאה";
+          document.getElementById("parasha").textContent = "📖 פרשת השבוע: שגיאה";
+          document.getElementById("parashaDate").textContent = "📅 תאריך עברי: שגיאה";
+        });
+    }
+
+    updateShabbatTimes();
+    setInterval(updateShabbatTimes, 3600000);
+
+    let combinedHeadlines = [];
+    let currentCombinedIndex = 0;
+    let currentSource = 'news';
+
+    const sources = {
+      news: {
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss2.xml',
+        prefix: '📰'
+      },
+      sport: {
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss3.xml',
+        prefix: '⚽'
+      }
+    };
+
+    async function fetchCombinedHeadlines(sourceKey) {
+      const { url, prefix } = sources[sourceKey];
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (!data.items || data.items.length === 0) throw new Error("אין פריטים");
+        return data.items.slice(0, 10).map(item => `${prefix} ${item.title}`);
+      } catch {
+        return [`${prefix} לא ניתן לטעון כותרות`];
+      }
+    }
+
+    async function updateCombinedTicker() {
+      const sourceKey = currentSource;
+      combinedHeadlines = await fetchCombinedHeadlines(sourceKey);
+      currentCombinedIndex = 0;
+      showNextCombinedHeadline();
+      currentSource = sourceKey === 'news' ? 'sport' : 'news';
+    }
+
+    function showNextCombinedHeadline() {
+      const ticker = document.getElementById("newsTickerItem");
+      ticker.style.opacity = 0;
+      setTimeout(() => {
+        ticker.textContent = combinedHeadlines[currentCombinedIndex];
+        ticker.style.opacity = 1;
+        currentCombinedIndex = (currentCombinedIndex + 1) % combinedHeadlines.length;
+      }, 500);
+    }
+
+    updateCombinedTicker();
+    setInterval(showNextCombinedHeadline, 5000);
+    setInterval(updateCombinedTicker, 50000);
+  </script>
+</body>
+</html>
