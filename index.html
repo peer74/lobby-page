@@ -130,14 +130,18 @@ display: none;
 
  
     .date {
-      font-size: 1.2em;
-      color: #aaa;
+   font-size: 1.2em;
+    /color: #aaa;
       margin-bottom: 10px;
     }
     .text {
       font-size: 1.5em;
+  
+
     }
   .weather-box, .shabbat-box, .parasha-box {
+display: none;
+
   position: absolute;
   width: 360px;
   background-color: rgba(51, 51, 51, 0.7); /* אפור כהה עם שקיפות 70% */
@@ -199,8 +203,15 @@ display: none;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
 	  z-index: 10;
     }
-    .gregorian-date { text-align: left; color: #00bcd4; }
-    .hebrew-date { text-align: right; color: #00bcd4; }
+ .gregorian-date { 
+  color: #1a1a1a;
+  text-shadow: 1px 1px 4px rgba(255,255,255,0.6);
+}
+
+.hebrew-date { 
+  color: #1a1a1a;
+  text-shadow: 1px 1px 4px rgba(255,255,255,0.6);
+}
 	
 .news-ticker {
   position: fixed;
@@ -281,7 +292,7 @@ display: none;
 </div>
 
 <div class="VAAD-message">
-<p>ועד הבית מאחל לכולם<br></p>
+ועד הבית מאחל לכולם
 חג פורים שקט ושמח.
 </div>
 
