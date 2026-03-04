@@ -11,11 +11,10 @@ body {
   height: 100vh;
   font-family: 'Frank Ruhl Libre', serif;
   min-height: 100vh;
-  /background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?raw=true');
   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
   /background-image: url('://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%A9%D7%9E%D7%97%D7%AA%20%D7%AA%D7%95%D7%A8%D7%94.png?raw=true');
+  background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?raw=true');
   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%97%D7%A0%D7%95%D7%9B%D7%94.jpg?raw=true');
-  background-image: url('https://github.com/peer74/lobby-page/blob/main/PURIM.jpg?raw=true');
   
   background-size: cover;
   background-repeat: no-repeat;
@@ -28,7 +27,7 @@ body {
 
 
     .container {
-       display: none;
+     /  display: none;
 	/  padding: 40px;
       max-width: 1000px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -91,7 +90,6 @@ body {
 
 
 .left-box {
-display: none;
   position: absolute;
   top: 80px;
   left: 40px;
@@ -130,18 +128,14 @@ display: none;
 
  
     .date {
-   font-size: 1.2em;
-    /color: #aaa;
+      font-size: 1.2em;
+      color: #aaa;
       margin-bottom: 10px;
     }
     .text {
       font-size: 1.5em;
-  
-
     }
   .weather-box, .shabbat-box, .parasha-box {
-display: none;
-
   position: absolute;
   width: 360px;
   background-color: rgba(51, 51, 51, 0.7); /* אפור כהה עם שקיפות 70% */
@@ -203,15 +197,8 @@ display: none;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
 	  z-index: 10;
     }
- .gregorian-date { 
-  color: #1a1a1a;
-  text-shadow: 1px 1px 4px rgba(255,255,255,0.6);
-}
-
-.hebrew-date { 
-  color: #1a1a1a;
-  text-shadow: 1px 1px 4px rgba(255,255,255,0.6);
-}
+    .gregorian-date { text-align: left; color: #00bcd4; }
+    .hebrew-date { text-align: right; color: #00bcd4; }
 	
 .news-ticker {
   position: fixed;
@@ -292,8 +279,7 @@ display: none;
 </div>
 
 <div class="VAAD-message">
-ועד הבית מאחל לכולם
-חג פורים שקט ושמח.
+ברוכים הבאים לזמיר 15.
 </div>
 
    <div class="clock" id="clock"></div>
@@ -302,11 +288,8 @@ display: none;
 
 
     <div class="message">
-        <div class="text">מבקשים להזכיר כי התשלום החודשי לועד הבית עומד על ₪200.<br><br> </div>
-	<div class="text">תשלום זה חיוני להמשך תחזוקת הבניין, ניקיון, תיקונים שוטפים </div>
-	<div class="text">ושמירה על איכות החיים המשותפת שלנו.<br><br></div>
-	<div class="text">ניתן לשלם בהוראת קבע, העברה בנקאית או אפליקציית תשלום.</div>
-	<div class="text">המחאות או מזומן ניתן להעביר לרונן, צ'רלי או סילביה.</div>
+        <div class="text">נא לשמור על נקיון הבניין.<br><br> </div>
+	
 
     </div>
     
