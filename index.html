@@ -446,7 +446,7 @@ async function loadFiveDayCompactForecast() {
 loadFiveDayCompactForecast();
 setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
 
-    // פרשת השבוע וזמני שבת
+     // פרשת השבוע וזמני שבת
  function updateShabbatTimes() {
       const url = "https://www.hebcal.com/shabbat?cfg=json&geonameid=294117&b=30&M=on&m=50";
 
@@ -463,8 +463,8 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
       document.getElementById("havdalah").textContent =
         `✨ יציאת שבת: ${havdalah?.title.split(": ")[1] || "לא זמין"}`;
 
-      //document.getElementById("parasha").textContent =
- `📖 פרשת השבוע: ${parasha?.hebrew}`//
+      document.getElementById("parasha").textContent =
+ `📖 פרשת השבוע: ${parasha?.hebrew}`;
 
 
       // הוספת תאריך עברי לפרשת השבוע
@@ -476,7 +476,7 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
           .then(res => res.json())
           .then(hebrewData => {
             document.getElementById("parashaDate").textContent =
-              `📅 תאריך עברי: י"ז בניסן תשפ"ו`;
+              `📅 תאריך עברי: ${hebrewData.hebrew}`;
           })
           .catch(() => {
             document.getElementById("parashaDate").textContent =
