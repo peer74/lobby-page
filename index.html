@@ -13,10 +13,11 @@ body {
   min-height: 100vh;
   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%A8%D7%A7%D7%A2%20%D7%91%D7%A0%D7%99%D7%99%D7%9F.png?raw=true');
   /background-image: url('://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%A9%D7%9E%D7%97%D7%AA%20%D7%AA%D7%95%D7%A8%D7%94.png?raw=true');
-background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?raw=true');
+ /background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?raw=true');
   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%97%D7%A0%D7%95%D7%9B%D7%94.jpg?raw=true');
-  /background-image: url('https://mountainstates.adl.org/sites/default/files/images/2022-09/memorial-candle-gif.gif?raw=true');
-	
+ /background-image: url('https://mountainstates.adl.org/sites/default/files/images/2022-09/memorial-candle-gif.gif?raw=true');
+  background-image: url('https://github.com/peer74/lobby-page/blob/main/ZIKRON.jpg?raw=true');
+
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -28,7 +29,7 @@ background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?
 
 
     .container {
-     /  display: none;
+      display: none;
 	/  padding: 40px;
       max-width: 1000px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -79,7 +80,7 @@ background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?
 }
 
 .VAAD-message {
-  font-size: 6em;
+  font-size: 7em;
   text-align: center;
   margin: 40px auto;
   font-weight: bold;
@@ -91,6 +92,8 @@ background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?
 
 
 .left-box {
+ display: none;
+
   position: absolute;
   top: 80px;
   left: 40px;
@@ -137,6 +140,8 @@ background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?
       font-size: 1.5em;
     }
   .weather-box, .shabbat-box, .parasha-box {
+ display: none;
+
   position: absolute;
   width: 360px;
   background-color: rgba(51, 51, 51, 0.7); /* אפור כהה עם שקיפות 70% */
@@ -148,6 +153,8 @@ background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?
   line-height: 1.1;
 }
     .shabbat-box {
+ display: none;
+
 	position: absolute;
   top: 80px;   /* היה 160px */
   right: 40px;
@@ -280,7 +287,8 @@ background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?
 </div>
 
 <div class="VAAD-message">
-ברוכים הבאים לזמיר 15.
+<p>יום הזיכרון לחללי מערכות ישראל</p>
+ולנפגעי פעולות האיבה.
 </div>
 
    <div class="clock" id="clock"></div>
@@ -308,7 +316,7 @@ background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?
 <p>מערכת המים החמים.<br><br></p>
 
  <h3 style="border-bottom: 2px solid #ffd700;">צ'רלי שיין.</h3>
-<p>תאורה, מצלמות וגינון.<br><br></p>
+<p>התאורה, המצלמות והגינון.<br><br></p>
 
  <h3 style="border-bottom: 2px solid #ffd700;">אודליה שיין.</h3>
 <p>חברת הניקיון.<br><br></p>
@@ -506,7 +514,7 @@ const sources = {
     prefix: '📰'
   },
   sport: {
- url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss3.xml',
+ url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss2.xml',
     prefix: '⚽'
   }
 };
