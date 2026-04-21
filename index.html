@@ -16,8 +16,7 @@ body {
  /background-image: url('https://github.com/peer74/lobby-page/blob/main/lobby.jpg?raw=true');
   /background-image: url('https://github.com/peer74/lobby-page/blob/main/%D7%AA%D7%A6%D7%95%D7%92%D7%AA%20%D7%97%D7%A0%D7%95%D7%9B%D7%94.jpg?raw=true');
  /background-image: url('https://mountainstates.adl.org/sites/default/files/images/2022-09/memorial-candle-gif.gif?raw=true');
-  /background-image: url('https://github.com/peer74/lobby-page/blob/main/ATZMAUT.jpg?raw=true');
-  background-image: url('https://github.com/peer74/lobby-page/blob/main/ZIKRON.jpg?raw=true');
+  background-image: url('https://github.com/peer74/lobby-page/blob/main/ATZMAUT.jpg?raw=true');
 
   background-size: cover;
   background-repeat: no-repeat;
@@ -48,15 +47,37 @@ body {
     }
  .clock {
   text-align: center;
-  font-size: 7em; /* גודל מוגדל */
-  margin-bottom: 20px;
-  /color: #ffd700; /* זהב */
-  /color: #5c2c06;/* חום */
-  color:#FF00FF;/* MAGENTA */
-  /color: #39ff14; /* ירוק ניאון */
+  font-size: 7em;
   font-weight: bold;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6); /* הצללה */
+  margin-bottom: 20px;
+
+  /* גוף הטקסט בלבן */
+  color: #ffffff;
+
+  /* יצירת אפקט "שכבות" כחול-לבן למראה ציוני וחגיגי */
+  text-shadow: 
+    -2px -2px 0 #0038b8,  
+     2px -2px 0 #0038b8,
+    -2px  2px 0 #0038b8,
+     2px  2px 0 #0038b8, /* מסגרת כחולה דקה סביב האותיות */
+     0px  0px 20px rgba(0, 56, 184, 0.5); /* הילה כחולה עדינה מאוד */
+
+  /* אנימציית פעימה עדינה ששומרת על החגיגיות */
+  animation: pulse 2.5s infinite ease-in-out;
 }
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(0, 56, 184, 0.3));
+  }
+  50% {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 15px rgba(0, 56, 184, 0.6));
+  }
+}
+
+
 
 
    
@@ -72,31 +93,20 @@ body {
 	   color: #39ff14;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
-@keyframes vaadColorShift {
-  0% {
-    color: #4A7EBB; /* כחול טקסי */
-    text-shadow: 0 0 4px rgba(74,126,187,0.25);
-  }
-  33% {
-    color: #AFCBEF; /* כחול שמיים רך */
-    text-shadow: 0 0 6px rgba(175,203,239,0.3);
-  }
-  66% {
-    color: #D97A7A; /* אדום זיכרון עדין */
-    text-shadow: 0 0 6px rgba(217,122,122,0.25);
-  }
-  100% {
-    color: #4A7EBB;
-    text-shadow: 0 0 4px rgba(74,126,187,0.25);
-  }
+@keyframes independenceColorShift {
+  0%   { color: #0038b8; text-shadow: 1px 1px 4px rgba(0, 56, 184, 0.8); } /* כחול עמוק */
+  25%  { color: #1e90ff; text-shadow: 2px 2px 6px rgba(30, 144, 255, 0.7); } /* כחול בהיר */
+  50%  { color: #ffffff; text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.9); } /* לבן זוהר */
+  75%  { color: #87cefa; text-shadow: 2px 2px 6px rgba(135, 206, 250, 0.7); } /* תכלת */
+  100% { color: #0038b8; text-shadow: 1px 1px 4px rgba(0, 56, 184, 0.8); } /* חזרה לכחול עמוק */
 }
 
 .VAAD-message {
-  font-size: 6.5em;
+  font-size: 8em;
   text-align: center;
   margin: 40px auto;
   font-weight: bold;
-  animation: vaadColorShift 5s infinite;
+  animation: independenceColorShift 4s infinite linear;
   transition: color 0.5s ease-in-out;
 
 }
@@ -104,8 +114,6 @@ body {
 
 
 .left-box {
- display: none;
-
   position: absolute;
   top: 80px;
   left: 40px;
@@ -152,8 +160,6 @@ body {
       font-size: 1.5em;
     }
   .weather-box, .shabbat-box, .parasha-box {
- display: none;
-
   position: absolute;
   width: 360px;
   background-color: rgba(51, 51, 51, 0.7); /* אפור כהה עם שקיפות 70% */
@@ -165,8 +171,6 @@ body {
   line-height: 1.1;
 }
     .shabbat-box {
- display: none;
-
 	position: absolute;
   top: 80px;   /* היה 160px */
   right: 40px;
@@ -299,8 +303,7 @@ body {
 </div>
 
 <div class="VAAD-message">
-<p>יום הזיכרון לחללי מערכות ישראל</p>
-ולנפגעי פעולות האיבה.
+חג עצמאות שמח.<br><br><br><br>
 </div>
 
    <div class="clock" id="clock"></div>
@@ -526,8 +529,8 @@ const sources = {
     prefix: '📰'
   },
   sport: {
- url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss2.xml',
-    prefix: '📰'
+ url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.ynet.co.il/Integration/StoryRss3.xml',
+    prefix: '⚽'
   }
 };
 
