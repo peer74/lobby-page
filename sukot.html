@@ -472,7 +472,7 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
         fetch(hebcalDateUrl)
           .then(res => res.json())
           .then(hebrewData => {
-            document.getElementById("parasha").textContent = "🍎 שבת סוכות";
+            document.getElementById("parasha").textContent = "שמחת תורה";
               `📅 תאריך עברי: ${hebrewData.hebrew}`;
           })
           .catch(() => {
