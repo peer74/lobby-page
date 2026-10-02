@@ -457,7 +457,7 @@ setInterval(loadFiveDayCompactForecast, 300000); // רענון כל 5 דקות
     .then(data => {
       const candle = data.items.find(item => item.category === "candles");
       const havdalah = data.items.find(item => item.category === "havdalah");
-      const parasha = data.items.find(item => item.category === "holiday");
+      const parasha = data.items.find(item => item.category === "parashat");
       document.getElementById("candleLighting").textContent =
         `🕯️ כניסת שבת: ${candle?.title.split(": ")[1] || "לא זמין"}`;
 
